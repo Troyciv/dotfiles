@@ -1,13 +1,14 @@
 #!/bin/bash
 ############################
 # install.sh
+# adopted from Michael Smalley
 # This script backs up existing dotfiles in a dotfiles_old directory, and creates symlinks to the dotfiles in this repository
 ############################
 
 ###### Variables
-dir=~/.dotfiles
+dir=~/dotfiles
 olddir=~/dotfiles_old
-files=".bashrc .spacemacs"
+files="bashrc spacemacs vimrc gitconfig inputrc"
 ######
 
 # Creating dotfiles_old directory
@@ -28,3 +29,8 @@ for file in $files; do
     ln -sv $dir/$file ~/.$file
 done
 echo "...done"
+
+# install bash-it
+# todo
+# install liquidprompt
+# todo
