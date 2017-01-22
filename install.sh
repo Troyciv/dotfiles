@@ -8,8 +8,16 @@
 ###### Variables
 dir=~/dotfiles
 olddir=~/dotfiles_old
-files="bashrc spacemacs vimrc gitconfig inputrc"
+files="bashrc spacemacs vimrc gitconfig inputrc xinitrc xmodmap"
 ######
+
+# check if the following tools are installed, if not, install them
+# htop
+# ncdu
+# check whether bash is installed
+# if yes, istall bash-it and liquidprompt
+# check if vim and emacs is installed
+# if yes, install spacemacs
 
 # Creating dotfiles_old directory
 echo "Creating $olddir for backup of any existing dotfiles in ~"
@@ -30,7 +38,4 @@ for file in $files; do
 done
 echo "...done"
 
-# install bash-it
-# todo
-# install liquidprompt
-# todo
+# linking .xsession to .xinitrc
