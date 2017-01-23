@@ -1,4 +1,4 @@
 #! /usr/bin/env bash
 #
-bash -c "xmodmap ~/.xmodmap" & 
+#bash -c "xmodmap ~/.xmodmap" & 
 exec startxfce4

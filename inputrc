@@ -3,6 +3,15 @@
 "\e[C": forward-char
 "\e[D": backward-char
 
-#tweak auto-completion
-#Control-i: menu-complete
-#"\C- ": complete
+
+#show completion possibilities with only single TAB
+set show-all-if-ambiguous on
+
+#case-insensitive
+set completion-ignore-case on
+
+#cycle through tab-completion-list
+Control-i: menu-complete
+"\C- ": complete
+
+

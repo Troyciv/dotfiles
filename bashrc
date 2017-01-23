@@ -41,6 +41,34 @@ export SCM_CHECK=true
 
 # Load Bash It
 source $BASH_IT/bash_it.sh
+
 # Load Liquidprompt
 # Only load Liquid Prompt in interactive shells, not from a script or from scp
 [[ $- = *i* ]] && source ~/.liquidprompt/liquidprompt
+
+# Environtment Variables
+######################
+PATH=$PATH:$HOME/bin
+export PATH
+
+# Aliases
+###############
+alias sysinfo='neofetch'
+
+
+
+#Funktions
+##############
+# cd and ls in one
+     cl() {
+     local dir="$1"
+     local dir="${dir:=$HOME}"
+     if [[ -d "$dir" ]]; then
+         cd "$dir" >/dev/null; ls
+     else
+         echo "bash: cl: $dir: Directory not found"
+     fi
+     }
+
+# ad cd when entered a path
+     shopt -s autocd
