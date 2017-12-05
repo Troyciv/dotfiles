@@ -36,36 +36,64 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
      ;; better-defaults
-     auto-completion
-     bibtex
+     (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence nil
+                      auto-completion-complete-with-key-sequence-delay 0.5
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-enable-sort-by-usage t
+                      ;; auto-completion-private-snippets-directory nil
+                      )
+     ;; bibtex
+     ;; ;; c-c++
      csv
      emacs-lisp
-     evil-cleverparens
-     finance
      games
      git
+     ;; helm
      html
-     ;; javascript
-     (latex :variables latex-enable-auto-fill t)
+     javascript
+     (latex :variables
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      markdown
-     org
-     pandoc
-     python
-     ranger
+     (org :variables
+          org-enable-reveal-js-support t)
+     ;; pandoc
+     ;; pdf-tools
+     (python :variables
+             python-test-runner 'nose
+             python-enable-yapf-format-on-save t)
+     rcirc
+     ;; ranger
      shell-scripts
-     spell-checking
-     syntax-checking
-     themes-megapack
-     ;; twitter
-     ;; vim-powerline
-     ;; slack
-     speed-reading
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     version-control
+     ;; spacemacs-base
+     ;; spacemacs-completion
+     ;; spacemacs-editing
+     ;; spacemacs-editing-visual
+     ;; spacemacs-evil
+     ;; spacemacs-language
+     ;; spacemacs-layouts
+     ;; spacemacs-misc
+     ;; spacemacs-org
+     ;; spacemacs-ui
+     ;; spacemacs-ui-visual
+     (spell-checking :variables
+                     spell-checking-enable-by-default nil
+                     )
+     ;; ;; sql
+     syntax-checking
+     ;; themes-megapack
+     twitter
+     ;; ;; version-control
+     ;; ;; vimscript
+     ;; xkcd
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -75,7 +103,68 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(;;window-numbering
+                                    ;; volatile-highlights
+                                    ;; vi-tilde-fringe
+                                    ;;spaceline
+                                    ;; smooth-scrolling
+                                    ;;smartparens
+                                    ;;rainbow-delimiters
+                                    ;; powerline
+                                    ;;persp-mode
+                                    ;; pcre2el
+                                    ;; parent-mode
+                                    ;; paradox
+                                    ;; open-junk-file
+                                    ;; neotree
+                                    ;; move-text
+                                    ;; lorem-ipsum
+                                    ;; linum-relative
+                                    ;; leuven-theme
+                                    ;; let-alist
+                                    ;; info+
+                                    ;; indent-guide
+                                    ;; iedit
+                                    ;; hungry-delete
+                                    ;; highlight-parentheses
+                                    ;; highlight-numbers
+                                    ;; highlight-indentation
+                                    ;; helm-themes
+                                    ;; helm-swoop
+                                    ;; helm-mode-manager
+                                    ;; helm-make
+                                    ;; helm-ag
+                                    google-translate
+                                    ;; golden-ratio
+                                    ;; flx-ido
+                                    ;; fancy-battery
+                                    ;; eyebrowse
+                                    ;; expand-region
+                                    ;; evil-tutor
+                                    ;; evil-search-highlight-persist
+                                    ;; evil-numbers
+                                    ;; evil-nerd-commenter
+                                    ;; evil-mc
+                                    ;; evil-matchit
+                                    ;; evil-lisp-state
+                                    ;; evil-indent-plus
+                                    ;; evil-iedit-state
+                                    ;; evil-exchange
+                                    ;; evil-args
+                                    ;; evil-anzu
+                                    ;; define-word
+                                    ;; clean-aindent-mode
+                                    ;; buffer-move
+                                    ;; bracketed-paste
+                                    ;; avy
+                                    ;; auto-highlight-symbol
+                                    ;; anzu
+                                    ;; aggressive-indent
+                                    ;; adaptive-wrap
+                                    ;; ace-window
+                                    ;; ace-link
+                                    ;; ace-jump-helm-line
+)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -83,7 +172,7 @@ values."
    ;; `used-but-keep-unused' installs only the used packages but won't uninstall
    ;; them if they become unused. `all' installs *all* packages supported by
    ;; Spacemacs and never uninstall them. (default is `used-only')
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -107,7 +196,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -120,7 +209,7 @@ values."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -134,7 +223,8 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((recents . 5)
+   dotspacemacs-startup-lists '((agenda)
+                                (recents . 5)
                                 (projects . 7)
                                 )
    ;; True if the home buffer should respond to resize events.
@@ -144,16 +234,23 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(
+                         zenburn
+                         spacemacs-light
+                         monokai
+                         solarized-light
+                         spacemacs-dark
+                         )
+
    ;; If non nil the cursor color matches the state color in GUI Emacs.
-   dotspacemacs-colorize-cursor-according-to-state t
+   dotspacemacs-colorize-cursor-according-to-state nil
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 14
-                               :weight normal
-                               :width normal
+   dotspacemacs-default-font '("Office Code Pro"
+                               :size 18
+                               :style regular
+                               ;; :weight medium
+                               ;; :width medium
                                :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -209,7 +306,7 @@ values."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-resize t
    ;; if non nil, the helm header is hidden when there is only one source.
    ;; (default nil)
    dotspacemacs-helm-no-header nil
@@ -245,7 +342,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -253,7 +350,7 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 100
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
@@ -277,14 +374,14 @@ values."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis nil
+   dotspacemacs-smart-closing-parenthesis t
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -305,7 +402,7 @@ values."
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init', before layer configuration
 executes.
- This function is mostly useful for variables that need to be set
+This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   )
@@ -318,9 +415,148 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-;;full document previews for e.g. latex layer
-(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  ;; Save all buffers (keybinding still missing, preferred overwrite to `SPC f S`)
+  ;; (global-set-key [(space f S-s)] 'save-all-buffers)
+  (defun save-all-buffers ()
+    "Calls `save-some-buffers' with positive PRED argument."
+    (interactive)
+    (save-some-buffers nil t))
+
+  ;; makes sure that new buffers that are not tied to a file yet also promt for save
+  (defadvice spacemacs/new-empty-buffer (after offer-save activate)
+    "Prompt user to save the buffer on `save-some-buffers'"
+    (with-current-buffer ad-return-value
+      (setq buffer-offer-save t)))
+
+  ;; custom emacs quit, ask for saving all buffers
+  (defun spacemacs/prompt-kill-emacs ()
+    "Prompt to save changed buffers and exit Spacemacs"
+    (interactive)
+    (setq spacemacs-really-kill-emacs t)
+    (save-some-buffers nil t)
+    (kill-emacs))
+
+  ;;LAYOUT
+  ;; enable line numbers in selected major-modes
+  (add-hook 'prog-mode-hook #'linum-mode)
+  (add-hook 'prog-mode-hook #'linum-relative-on)
+
+  ;;COMPANY - AUTO-COMPLETE
+  ;; enable company-mode globally for auto completion
+  (global-company-mode)
+
+  ;;LATEX
+  ;;full document previews for e.g. latex layer
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
+  ;; disable spell-checking
+  ;; spell-checking-enable-by-default nil
+
+  ;;EVIL
+  ;; evil-escape delay
+  (setq-default evil-escape-delay 0.2)
+
+  ;;PYTHON
+  (setq python-shell-interpreter "python3")
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; ORG MODE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Move single cells using C-M-up C-M-down C-M-left C-M-right
+  (add-hook 'org-mode-hook
+  '(lambda ()
+      (local-set-key [C-M-up] (quote org-table-move-single-cell-up))
+      (local-set-key [C-M-down] (quote org-table-move-single-cell-down))
+      (local-set-key [C-M-left] (quote org-table-move-single-cell-left))
+      (local-set-key [C-M-right] (quote org-table-move-single-cell-right))))
+
+  (defun org-table-swap-cells (i1 j1 i2 j2)
+    "Swap two cells"
+    (let ((c1 (org-table-get i1 j1))
+    (c2 (org-table-get i2 j2)))
+      (org-table-put i1 j1 c2)
+      (org-table-put i2 j2 c1)
+      (org-table-align)))
+
+  (defun org-table-move-single-cell (direction)
+    "Move the current cell in a cardinal direction according to the
+    parameter symbol: 'up 'down 'left 'right. Swaps contents of
+    adjacent cell with current one."
+    (unless (org-at-table-p)
+      (error "No table at point"))
+    (let ((di 0) (dj 0))
+      (cond ((equal direction 'up) (setq di -1))
+      ((equal direction 'down) (setq di +1))
+      ((equal direction 'left) (setq dj -1))
+      ((equal direction 'right) (setq dj +1))
+      (t (error "Not a valid direction, must be up down left right")))
+      (let* ((i1 (org-table-current-line))
+      (j1 (org-table-current-column))
+      (i2 (+ i1 di))
+      (j2 (+ j1 dj)))
+        (org-table-swap-cells i1 j1 i2 j2)
+        (org-table-goto-line i2)
+        (org-table-goto-column j2))))
+
+  (defun org-table-move-single-cell-up ()
+    "Move a single cell up in a table; swap with anything in target cell"
+    (interactive)
+    (org-table-move-single-cell 'up))
+
+  (defun org-table-move-single-cell-down ()
+    "Move a single cell down in a table; swap with anything in target cell"
+    (interactive)
+    (org-table-move-single-cell 'down))
+
+  (defun org-table-move-single-cell-left ()
+    "Move a single cell left in a table; swap with anything in target cell"
+    (interactive)
+    (org-table-move-single-cell 'left))
+
+  (defun org-table-move-single-cell-right ()
+    "Move a single cell right in a table; swap with anything in target cell"
+    (interactive)
+    (org-table-move-single-cell 'right))
+
+
 )
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(csv-separators (quote (",")))
+ '(evil-want-Y-yank-to-eol nil)
+ '(org-M-RET-may-split-line (quote ((default))))
+ '(org-latex-classes
+   (quote
+    (("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[11pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("scrartcl" "\\documentclass[11pt]{scrartcl}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))))
+ '(paradox-github-token t))

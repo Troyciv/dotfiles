@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 
+######################################
+# BASH-IT
+#####################################
 # Path to the bash it configuration
 export BASH_IT="/home/user/.bash-it"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME='standard'
+export BASH_IT_THEME='modern'
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
 # export BASH_IT_REMOTE='bash-it'
 
 # Your place for hosting Git repos. I use this for private repos.
-export GIT_HOSTING='git@git.domain.com'
+export GIT_HOSTING=''
 
 # Don't check mail when opening terminal.
 unset MAILCHECK
@@ -42,24 +45,46 @@ export SCM_CHECK=true
 # Load Bash It
 source $BASH_IT/bash_it.sh
 
+###################################################
+# LIQUID PROMPT
+###################################################
 # Load Liquidprompt
 # Only load Liquid Prompt in interactive shells, not from a script or from scp
 [[ $- = *i* ]] && source ~/.liquidprompt/liquidprompt
 
-# Environtment Variables
+###################################################
+# personal additions
+####################################################
+# some important configuration (e.g. autocompletion)are also found in the .inputrc
+
+# set bash to vi mode
+set -o vi
+
+# ad cd when entered a path
+shopt -s autocd
+
+# correct minor spelling errors in cd
+shopt -s cdspell
+ 
+
+# Python version management with pyenv
+export PATH="/home/user/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# IMPROVEMENT WISHES
+# add a dot <.> in front of filename when forgotten
+
+# Environtment Variables belong in ~/.profile, not here
 ######################
-PATH=$PATH:$HOME/bin
-export PATH
 
 # Aliases
 ###############
 alias sysinfo='neofetch'
 
-
-
-#Funktions
+# Functions
 ##############
-# cd and ls in one
+# cd and ls in one command
      cl() {
      local dir="$1"
      local dir="${dir:=$HOME}"
@@ -70,5 +95,20 @@ alias sysinfo='neofetch'
      fi
      }
 
-# ad cd when entered a path
-     shopt -s autocd
+###################
+# NNN Filebrowser #
+###################
+     # quit and change directory
+     export NNN_TMPFILE="/tmp/nnn"
+
+     n()
+     {
+         nnn "$@"
+
+         if [ -f $NNN_TMPFILE ]; then
+             . $NNN_TMPFILE
+             rm $NNN_TMPFILE
+         fi
+     }
+
+

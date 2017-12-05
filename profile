@@ -20,3 +20,17 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+# include ~/.local to PATH
+if [ -d "$HOME/.local/bin" ] ; then
+	PATH="$HOME/.local/bin:$PATH"
+fi
+
+# include local ruby directory to PATH
+for dir in $HOME/.gem/ruby/*; do
+  [ -d "$dir/bin" ] && PATH="${dir}/bin:${PATH}"
+done
+
+
+# set favourite directories to CDPATH for quick cd navigation
+# CDPATH=
